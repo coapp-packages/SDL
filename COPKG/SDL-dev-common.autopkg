@@ -1,0 +1,47 @@
+@import "version.inc";
+@import "compat.inc";
+@import "outercurve.inc";
+
+package {
+    name: "SDL-dev-common";
+    version: "${package-version}";
+    arch : "any";
+
+    display-name: "Simple DirectMedia Layer (SDL)";
+    location: "http://coapp.org/repository/${OutputFilename}";
+
+    feed: "http://coapp.org/repository/packages.atom.xml";
+    publisher: "CoApp Project";
+}
+
+license[LGPL21] {
+	license: @"..\COPYING";
+	license-url: "http://www.gnu.org/licenses/lgpl-2.1.html";
+	license-type: "LGPL";
+}
+
+metadata {  
+    summary: "Simple DirectMedia Library";
+    description: @"Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.";
+    author-version : "${package-version}";
+    bug-tracker: "https://github.com/coapp-packages/SDL/issues";
+    stability : "0";
+    licenses : {
+		LGPL21
+    };
+}
+
+developer-library[SDL] {
+    headers: { 
+        headers,
+    };
+}
+
+files[headers] {
+    root: @"..\include";
+    include: {
+        "*.h",
+    };
+
+    trim-path:all;
+}
