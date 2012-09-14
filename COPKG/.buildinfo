@@ -45,3 +45,37 @@ x86 {
 	";
 }
 
+release {
+	uses: x86;
+}
+
+test-x86 {
+	build-command: @"
+		set PATH=%CD%\VisualC10\Release;%PATH%
+		rem echo testalpha
+		rem VisualC10\tests\testalpha\Release\testalpha.exe || goto failed
+		echo testfile
+		VisualC10\tests\testfile\Release\testfile.exe || goto failed
+		echo testgamma
+		VisualC10\tests\testgamma\Release\testgamma.exe || goto failed
+		rem echo testgl
+		rem VisualC10\tests\testgl\Release\testgl.exe || goto failed
+		echo testjoystick
+		VisualC10\tests\testjoystick\Release\testjoystick.exe || goto failed
+		rem echo testpalette
+		rem VisualC10\tests\testpalette\Release\testpalette.exe || goto failed
+		echo testplatform
+		VisualC10\tests\testplatform\Release\testplatform.exe || goto failed
+		echo testvidinfo
+		VisualC10\tests\testvidinfo\Release\testvidinfo.exe || goto failed
+		echo testwin
+		VisualC10\tests\testwin\Release\testwin.exe || goto failed
+		rem echo testwm
+		rem VisualC10\tests\testwm\Release\testwm.exe || goto failed
+	";
+}
+
+test {
+	uses: release;
+	uses: test-x86;
+}
