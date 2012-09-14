@@ -1,5 +1,9 @@
 @import "version.inc";
 
+#define {
+    NewVersion : "${package-version++}";
+}
+
 #product-info  {
     product-name: "SDL";
     version: "${package-version}";
@@ -78,4 +82,37 @@ test-x86 {
 test {
 	uses: release;
 	uses: test-x86;
+}
+
+package {
+	uses: release;
+
+	build-command: @"
+        if ""${noversion}"" neq ""true"" ptk update-version
+        cd COPKG
+        autopackage SDL.autopkg || goto failed
+	";
+
+	targets: {
+		@"COPKG\SDL[vc10]-${NewVersion}-x86.msi",
+	};
+
+	clean-command: @"
+		del COPKG\*.msi
+		del COPKG\*.wixpdb
+	";	
+}
+
+update-version {
+    default : false;
+    
+    build-command : @"
+        REM auto-increment version.inc file...
+        
+        pushd COPKG
+        setlocal EnableDelayedExpansion
+        set VERSTRING=#define { package-version: ${NewVersion}; }
+        echo !VERSTRING! > version.inc
+        popd
+    ";
 }
