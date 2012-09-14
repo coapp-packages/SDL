@@ -1,0 +1,47 @@
+@import "version.inc";
+
+#product-info  {
+    product-name: "SDL";
+    version: "${package-version}";
+    original-source-location: "http://www.libsdl.org/release/SDL-1.2.15.tar.gz";
+    original-source-website: "http://www.libsdl.org/download-1.2.php";
+    license: "LGPL 2.1";
+    packager: "Vincent Povirk <madewokherd@gmail.com>";
+}
+
+x86 {
+	platform: x86;
+	compiler: vc10;
+
+	build-command: @"
+		if ""${BUILT}"" equ ""true"" goto end
+		msbuild /p:Platform=Win32 /p:Configuration=Release VisualC10\SDL.sln || goto failed
+		msbuild /p:Platform=Win32 /p:Configuration=Release VisualC10\tests\tests.sln || goto failed
+:end
+	";
+
+	targets: {
+		@"VisualC10\Release\SDL.lib",
+		@"VisualC10\Release\SDL.dll",
+		@"VisualC10\SDLmain\Release\SDLmain.lib",
+		@"VisualC10\tests\graywin\Release\graywin.exe",
+		@"VisualC10\tests\loopwave\Release\loopwave.exe",
+		@"VisualC10\tests\testalpha\Release\testalpha.exe",
+		@"VisualC10\tests\testfile\Release\testfile.exe",
+		@"VisualC10\tests\testgamma\Release\testgamma.exe",
+		@"VisualC10\tests\testgl\Release\testgl.exe",
+		@"VisualC10\tests\testjoystick\Release\testjoystick.exe",
+		@"VisualC10\tests\testpalette\Release\testpalette.exe",
+		@"VisualC10\tests\testplatform\Release\testplatform.exe",
+		@"VisualC10\tests\testvidinfo\Release\testvidinfo.exe",
+		@"VisualC10\tests\testwin\Release\testwin.exe",
+		@"VisualC10\tests\testwm\Release\testwm.exe",
+	};
+
+	clean-command: @"
+		msbuild /p:Platform=Win32 /p:Configuration=Release VisualC10\SDL.sln /target:Clean
+		msbuild /p:Platform=Win32 /p:Configuration=Release VisualC10\tests\tests.sln /target:Clean
+		rd /s /q VisualC10\SDL\Release VisualC10\SDLmain\Release VisualC10\tests\graywin\Release\ VisualC10\tests\loopwave\Release\ VisualC10\tests\testalpha\Release\ VisualC10\tests\testfile\Release\ VisualC10\tests\testgamma\Release\ VisualC10\tests\testgl\Release\ VisualC10\tests\testjoystick\Release\ VisualC10\tests\testpalette\Release\ VisualC10\tests\testplatform\Release\ VisualC10\tests\testvidinfo\Release\ VisualC10\tests\testwin\Release\ VisualC10\tests\testwm\Release\
+	";
+}
+
