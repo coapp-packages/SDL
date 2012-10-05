@@ -96,7 +96,7 @@ package {
 
 	targets: {
 		@"COPKG\SDL[vc10]-${NewVersion}-x86.msi",
-		@"COPKG\SDL-dev-common-${NewVersion}-x86.msi",
+		@"COPKG\SDL-dev-common-${NewVersion}-any.msi",
 	};
 
 	clean-command: @"
