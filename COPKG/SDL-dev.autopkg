@@ -2,12 +2,17 @@
 @import "compat.inc";
 @import "outercurve.inc";
 
-package {
-    name: "SDL-dev-common";
-    version: "${package-version}";
-    arch : "any";
+#define { 
+    flavor: "${comp??vc10}"; 
+    arch : "${plat??x86}";
+}
 
-    display-name: "Simple DirectMedia Layer (SDL) Dev Common";
+package {
+    name: "SDL-dev[${flavor}]";
+    version: "${package-version}";
+    arch : "${arch}";
+
+    display-name: "Simple DirectMedia Layer (SDL) Dev";
     location: "http://coapp.org/repository/${OutputFilename}";
 
     feed: "http://coapp.org/repository/packages.atom.xml";
@@ -31,17 +36,25 @@ metadata {
     };
 }
 
-developer-library[SDL] {
-    headers: { 
-        headers,
-    };
+requires {
+	package: "SDL[${flavor}]-${package-version}-${arch}-${Package.PublicKeyToken}";
+	package: "SDL-dev-common-${package-version}-any-${Package.PublicKeyToken}";
 }
 
-files[headers] {
-    root: @"..\include";
+files[libs] {
+    root: @"..\VisualC10";
+
     include: {
-        "*.h",
+        "Release\SDL.lib",
+		"SDLmain\Release\SDLmain.lib",
     };
 
-    trim-path:all;
+    trim-path: all;
+};
+
+developer-library[SDL[${flavor}]] {
+    libraries : {
+        libs,
+    };
 }
+

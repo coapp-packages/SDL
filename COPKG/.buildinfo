@@ -91,11 +91,12 @@ package {
         if ""${noversion}"" neq ""true"" ptk update-version
         cd COPKG
         autopackage SDL-dev-common.autopkg || goto failed
-        autopackage SDL.autopkg || goto failed
+        autopackage SDL.autopkg SDL-dev.autopkg || goto failed
 	";
 
 	targets: {
 		@"COPKG\SDL[vc10]-${NewVersion}-x86.msi",
+		@"COPKG\SDL-dev[vc10]-${NewVersion}-x86.msi",
 		@"COPKG\SDL-dev-common-${NewVersion}-any.msi",
 	};
 
