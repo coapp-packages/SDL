@@ -1,68 +1,176 @@
-@import "version.inc";
-@import "compat.inc";
-@import "outercurve.inc";
+@import @"version.inc";
 
-#define { 
-    flavor: "${comp??vc10}"; 
-    arch : "${plat??x86}";
+configurations {
+	UserConfigurationType {
+		// So we can disable linkage of SDLmain into libraries
+        	key = "ConfigurationType";
+        	choices: { Application, DynamicLibrary, StaticLibrary };
+	};
+
+	SdlEntryPoint {
+		choices: { NoStdioRedirect, NoEntryPoint, WithStdioRedirect };
+		description = "Whether to use SDL's entry point (SDLmain library) that wraps the main() function, and whether that entry point should automatically redirect stdio to stdout.txt/stderr.txt. Regardless of this setting, SDLmain will only be linked into executables, and debug builds will always redirect stdio.";
+		NoEntryPoint.description = "Do not use SDLmain library.";
+		WithStdioRedirect.description = "Use SDLmain library and redirect stdio.";
+		NoStdioRedirect.description = "Use SDLmain library and do not redirect stdio.";
+		WithStdioRedirect.restricted-to = Application;
+		NoStdioRedirect.restricted-to = Application;
+	};
 }
 
-package {
-    name: "SDL[${flavor}]";
-    version: "${package-version}";
-    arch : "${arch}";
+nuget {
+	nuspec {
+		id = SDL;
+		version : ${package-version};
+		title: "Simple DirectMedia Layer (SDL)";
+		authors: {Sam Lantinga, SDL contributors};
+		owners: {CoApp Project, Vincent Povirk};
+		licenseUrl: "http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html";
+		projectUrl: "http://github.com/coapp-packages/SDL";
+		iconUrl: "http://www.libsdl.org/images/SDL_logo.png";
+		requireLicenseAcceptance:false;
+		summary: "Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.";
+		description: @"Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.
+Homepage: http://www.libsdl.org/";
+		releaseNotes: "Release of 1.2.15 libraries.";
+		copyright: Copyright 2013;
+		tags: { sdl, native, CoApp };
 
-    display-name: "Simple DirectMedia Layer (SDL)";
-    location: "http://coapp.org/repository/${OutputFilename}";
+	};
 
-    feed: "http://coapp.org/repository/packages.atom.xml";
-    publisher: "CoApp Project";
+	files {
+		include: {
+			..\include\*.h,
+			};
+
+		docs: {
+			..\docs\**\*,
+			};
+
+		source += {
+			..\src\**\*.c,
+			..\src\**\*.h,
+			..\include\**\*.h,
+		};
+
+		[Win32,v110,release] {
+			lib: { ..\VisualC10\v110\Release\Win32\SDL.lib };
+			bin: { ..\VisualC10\v110\Release\Win32\SDL.dll };
+			symbols: { ..\VisualC10\v110\Release\Win32\SDL.pdb };
+		}
+
+		[Win32,v110,debug] {
+			lib: { ..\VisualC10\v110\Debug\Win32\SDL.lib };
+			bin: { ..\VisualC10\v110\Debug\Win32\SDL.dll };
+			symbols: { ..\VisualC10\v110\Debug\Win32\SDL.pdb };
+		}
+
+		[Win32,v100,release] {
+			lib: { ..\VisualC10\v100\Release\Win32\SDL.lib };
+			bin: { ..\VisualC10\v100\Release\Win32\SDL.dll };
+			symbols: { ..\VisualC10\v100\Release\Win32\SDL.pdb };
+		}
+
+		[Win32,v100,debug] {
+			lib: { ..\VisualC10\v100\Debug\Win32\SDL.lib };
+			bin: { ..\VisualC10\v100\Debug\Win32\SDL.dll };
+			symbols: { ..\VisualC10\v100\Debug\Win32\SDL.pdb };
+		}
+
+		[x64,v110,release] {
+			lib: { ..\VisualC10\v110\Release\x64\SDL.lib };
+			bin: { ..\VisualC10\v110\Release\x64\SDL.dll };
+			symbols: { ..\VisualC10\v110\Release\x64\SDL.pdb };
+		}
+
+		[x64,v110,debug] {
+			lib: { ..\VisualC10\v110\Debug\x64\SDL.lib };
+			bin: { ..\VisualC10\v110\Debug\x64\SDL.dll };
+			symbols: { ..\VisualC10\v110\Debug\x64\SDL.pdb };
+		}
+
+		[x64,v100,release] {
+			lib: { ..\VisualC10\v100\Release\x64\SDL.lib };
+			bin: { ..\VisualC10\v100\Release\x64\SDL.dll };
+			symbols: { ..\VisualC10\v100\Release\x64\SDL.pdb };
+		}
+
+		[x64,v100,debug] {
+			lib: { ..\VisualC10\v100\Debug\x64\SDL.lib };
+			bin: { ..\VisualC10\v100\Debug\x64\SDL.dll };
+			symbols: { ..\VisualC10\v100\Debug\x64\SDL.pdb };
+		}
+
+		[Win32,v110,debug,application,withstdioredirect] {
+			lib: { ..\VisualC10\v110\Debug\Win32\SDLmain.lib };
+		}
+
+		[Win32,v110,debug,application,nostdioredirect] {
+			lib: { ..\VisualC10\v110\Debug\Win32\SDLmain.lib }; // FIXME: provide a library for this?
+		}
+
+		[Win32,v110,release,application,withstdioredirect] {
+			lib: { ..\VisualC10\v110\Release\Win32\SDLmain.lib };
+		}
+
+		[Win32,v110,release,application,nostdioredirect] {
+			lib: { ..\VisualC10\v110\Release_NoSTDIO\Win32\SDLmain.lib };
+		}
+
+		[Win32,v100,debug,application,withstdioredirect] {
+			lib: { ..\VisualC10\v100\Debug\Win32\SDLmain.lib };
+		}
+
+		[Win32,v100,debug,application,nostdioredirect] {
+			lib: { ..\VisualC10\v100\Debug\Win32\SDLmain.lib }; // FIXME: provide a library for this?
+		}
+
+		[Win32,v100,release,application,withstdioredirect] {
+			lib: { ..\VisualC10\v100\Release\Win32\SDLmain.lib };
+		}
+
+		[Win32,v100,release,application,nostdioredirect] {
+			lib: { ..\VisualC10\v100\Release_NoSTDIO\Win32\SDLmain.lib };
+		}
+
+		[x64,v110,debug,application,withstdioredirect] {
+			lib: { ..\VisualC10\v110\Debug\x64\SDLmain.lib };
+		}
+
+		[x64,v110,debug,application,nostdioredirect] {
+			lib: { ..\VisualC10\v110\Debug\x64\SDLmain.lib }; // FIXME: provide a library for this?
+		}
+
+		[x64,v110,release,application,withstdioredirect] {
+			lib: { ..\VisualC10\v110\Release\x64\SDLmain.lib };
+		}
+
+		[x64,v110,release,application,nostdioredirect] {
+			lib: { ..\VisualC10\v110\Release_NoSTDIO\x64\SDLmain.lib };
+		}
+
+		[x64,v100,debug,application,withstdioredirect] {
+			lib: { ..\VisualC10\v100\Debug\x64\SDLmain.lib };
+		}
+
+		[x64,v100,debug,application,nostdioredirect] {
+			lib: { ..\VisualC10\v100\Debug\x64\SDLmain.lib }; // FIXME: provide a library for this?
+		}
+
+		[x64,v100,release,application,withstdioredirect] {
+			lib: { ..\VisualC10\v100\Release\x64\SDLmain.lib };
+		}
+
+		[x64,v100,release,application,nostdioredirect] {
+			lib: { ..\VisualC10\v100\Release_NoSTDIO\x64\SDLmain.lib };
+		}
+
+		[noentrypoint] {
+		}
+	};
+
+	targets {
+		Defines += HAS_SDL;
+	};
 }
 
-license[LGPL21] {
-	license: @"..\COPYING";
-	license-url: "http://www.gnu.org/licenses/lgpl-2.1.html";
-	license-type: "LGPL";
-}
-
-metadata {  
-    summary: "Simple DirectMedia Library";
-    description: @"Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.";
-    author-version : "${package-version}";
-    bug-tracker: "https://github.com/coapp-packages/SDL/issues";
-    stability : "0";
-    licenses : {
-		LGPL21
-    };
-}
-
-signing {
-    attributes : {
-        company="Outercurve Foundation",
-        description="Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.",
-        product-name="SDL",
-        product-version="${package-version}",
-        file-version="${package-version}",
-    };
-
-    replace-signature: true; 
-    include: { 
-        dlls
-    };    
-}
-
-assembly[SDL[${flavor}]] {
-    include : {
-        dlls
-    };
-}
-
-files[dlls] {
-    root: @"..\VisualC10\Release";
-
-    include: {
-        "SDL.dll",
-    };
-
-    trim-path: all;
-};
