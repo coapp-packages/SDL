@@ -84,18 +84,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|Win32'">.\Release_NOSTDIO\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|Win32'">.\Release_NOSTDIO\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|Win32'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|Win32'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|x64'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_NoSTDIO|x64'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(PlatformToolset)\$(Configuration)\$(Platform)</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(PlatformToolset)\$(Configuration)\$(Platform)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
