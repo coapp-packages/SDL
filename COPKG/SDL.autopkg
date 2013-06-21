@@ -53,120 +53,33 @@ Homepage: http://www.libsdl.org/";
 			..\include\**\*.h,
 		};
 
-		[Win32,v110,release] {
-			lib: { ..\VisualC10\v110\Release\Win32\SDL.lib };
-			bin: { ..\VisualC10\v110\Release\Win32\SDL.dll };
-			symbols: { ..\VisualC10\v110\Release\Win32\SDL.pdb };
-		}
+        ("Win32,x64", "v100,v110", "Debug,Release") => {
+            [${0},${1},${2}] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDL.lib };
+                bin: { ..\VisualC10\${1}\${2}\${0}\SDL.dll };
+                symbols: { ..\VisualC10\${1}\${2}\${0}\SDL.pdb };
+            };
 
-		[Win32,v110,debug] {
-			lib: { ..\VisualC10\v110\Debug\Win32\SDL.lib };
-			bin: { ..\VisualC10\v110\Debug\Win32\SDL.dll };
-			symbols: { ..\VisualC10\v110\Debug\Win32\SDL.pdb };
-		}
+            [${0},${1},${2},application,withstdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDLmain.lib };
+            };
+        };
 
-		[Win32,v100,release] {
-			lib: { ..\VisualC10\v100\Release\Win32\SDL.lib };
-			bin: { ..\VisualC10\v100\Release\Win32\SDL.dll };
-			symbols: { ..\VisualC10\v100\Release\Win32\SDL.pdb };
-		}
+        ("Win32,x64", "v100,v110", "Debug") => {
+            [${0},${1},${2},application,nostdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDLmain.lib }; // FIXME: provide a library for this?
+            };
+        };
 
-		[Win32,v100,debug] {
-			lib: { ..\VisualC10\v100\Debug\Win32\SDL.lib };
-			bin: { ..\VisualC10\v100\Debug\Win32\SDL.dll };
-			symbols: { ..\VisualC10\v100\Debug\Win32\SDL.pdb };
-		}
+        ("Win32,x64", "v100,v110", "Release") => {
 
-		[x64,v110,release] {
-			lib: { ..\VisualC10\v110\Release\x64\SDL.lib };
-			bin: { ..\VisualC10\v110\Release\x64\SDL.dll };
-			symbols: { ..\VisualC10\v110\Release\x64\SDL.pdb };
-		}
-
-		[x64,v110,debug] {
-			lib: { ..\VisualC10\v110\Debug\x64\SDL.lib };
-			bin: { ..\VisualC10\v110\Debug\x64\SDL.dll };
-			symbols: { ..\VisualC10\v110\Debug\x64\SDL.pdb };
-		}
-
-		[x64,v100,release] {
-			lib: { ..\VisualC10\v100\Release\x64\SDL.lib };
-			bin: { ..\VisualC10\v100\Release\x64\SDL.dll };
-			symbols: { ..\VisualC10\v100\Release\x64\SDL.pdb };
-		}
-
-		[x64,v100,debug] {
-			lib: { ..\VisualC10\v100\Debug\x64\SDL.lib };
-			bin: { ..\VisualC10\v100\Debug\x64\SDL.dll };
-			symbols: { ..\VisualC10\v100\Debug\x64\SDL.pdb };
-		}
-
-		[Win32,v110,debug,application,withstdioredirect] {
-			lib: { ..\VisualC10\v110\Debug\Win32\SDLmain.lib };
-		}
-
-		[Win32,v110,debug,application,nostdioredirect] {
-			lib: { ..\VisualC10\v110\Debug\Win32\SDLmain.lib }; // FIXME: provide a library for this?
-		}
-
-		[Win32,v110,release,application,withstdioredirect] {
-			lib: { ..\VisualC10\v110\Release\Win32\SDLmain.lib };
-		}
-
-		[Win32,v110,release,application,nostdioredirect] {
-			lib: { ..\VisualC10\v110\Release_NoSTDIO\Win32\SDLmain.lib };
-		}
-
-		[Win32,v100,debug,application,withstdioredirect] {
-			lib: { ..\VisualC10\v100\Debug\Win32\SDLmain.lib };
-		}
-
-		[Win32,v100,debug,application,nostdioredirect] {
-			lib: { ..\VisualC10\v100\Debug\Win32\SDLmain.lib }; // FIXME: provide a library for this?
-		}
-
-		[Win32,v100,release,application,withstdioredirect] {
-			lib: { ..\VisualC10\v100\Release\Win32\SDLmain.lib };
-		}
-
-		[Win32,v100,release,application,nostdioredirect] {
-			lib: { ..\VisualC10\v100\Release_NoSTDIO\Win32\SDLmain.lib };
-		}
-
-		[x64,v110,debug,application,withstdioredirect] {
-			lib: { ..\VisualC10\v110\Debug\x64\SDLmain.lib };
-		}
-
-		[x64,v110,debug,application,nostdioredirect] {
-			lib: { ..\VisualC10\v110\Debug\x64\SDLmain.lib }; // FIXME: provide a library for this?
-		}
-
-		[x64,v110,release,application,withstdioredirect] {
-			lib: { ..\VisualC10\v110\Release\x64\SDLmain.lib };
-		}
-
-		[x64,v110,release,application,nostdioredirect] {
-			lib: { ..\VisualC10\v110\Release_NoSTDIO\x64\SDLmain.lib };
-		}
-
-		[x64,v100,debug,application,withstdioredirect] {
-			lib: { ..\VisualC10\v100\Debug\x64\SDLmain.lib };
-		}
-
-		[x64,v100,debug,application,nostdioredirect] {
-			lib: { ..\VisualC10\v100\Debug\x64\SDLmain.lib }; // FIXME: provide a library for this?
-		}
-
-		[x64,v100,release,application,withstdioredirect] {
-			lib: { ..\VisualC10\v100\Release\x64\SDLmain.lib };
-		}
-
-		[x64,v100,release,application,nostdioredirect] {
-			lib: { ..\VisualC10\v100\Release_NoSTDIO\x64\SDLmain.lib };
-		}
+            [${0},${1},${2},application,nostdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}_NoSTDIO\${0}\SDLmain.lib };
+            };
+        };
 
 		[noentrypoint] {
-		}
+		};
 	};
 
 	targets {
