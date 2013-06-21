@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="PreBuildCmds;PreBuildTargets;Build;PostBuildCmds;PostBuildTargets" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="CoApp" >
+    <CoAppEtcDirectory>$(registry:HKEY_LOCAL_MACHINE\Software\Outercurve\CoApp.Powershell\etc)</CoAppEtcDirectory>
+  </PropertyGroup>
+  
+  <Import Condition="Exists('$(CoAppEtcDirectory)\common-variables.vcxproj')" Project="$(CoAppEtcDirectory)\common-variables.vcxproj" />
+  
+  <PropertyGroup Label="ConfigurationSettings">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+
+    <OverrideConfigurationType>StaticLibrary</OverrideConfigurationType>
+
+    <Defines>WIN32;_WINDOWS</Defines>
+
+    <Defines Condition="$(NoSTDIO)">NO_STDIO_REDIRECT;$(Defines)</Defines>
+
+    <IncludeDirectories>..\include;..\include\SDL</IncludeDirectories>
+
+    <Libraries>SDL.lib</Libraries>
+
+    <ProjectName Condition="$(NoSTDIO)">SDLmain_NoSTDIO</ProjectName>
+  </PropertyGroup>
+
+  <Import Condition="Exists('$(CoAppEtcDirectory)\common-header.vcxproj')" Project="$(CoAppEtcDirectory)\common-header.vcxproj" />
+
+  <ItemGroup>
+    <ClCompile Include="..\Src\Main\Win32\SDL_win32_main.c" />
+  </ItemGroup>
+
+  <Import Condition="Exists('$(CoAppEtcDirectory)\common-footer.vcxproj')" Project="$(CoAppEtcDirectory)\common-footer.vcxproj" />
+</Project>
