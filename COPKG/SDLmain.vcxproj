@@ -9,6 +9,7 @@
   <PropertyGroup Label="ConfigurationSettings">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
 
+    <!-- FIXME: We need SDLmain to be static even when UsesConfigurationType is dynamic -->
     <OverrideConfigurationType>StaticLibrary</OverrideConfigurationType>
 
     <Defines>WIN32;_WINDOWS</Defines>

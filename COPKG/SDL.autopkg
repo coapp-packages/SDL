@@ -1,5 +1,7 @@
 @import @"version.inc";
 
+#define { toolsets: "v100,v110,v110_xp,v120,v120_xp,v140,v140_xp"; }
+
 configurations {
 	UserConfigurationType {
 		// So we can disable linkage of SDLmain into libraries
@@ -7,9 +9,15 @@ configurations {
         	choices: { Application, DynamicLibrary, StaticLibrary };
 	};
 
+	UserPlatformToolset {
+		// So we can disable linkage of SDLmain into libraries
+        	key = "PlatformToolset";
+        	choices: ${toolsets};
+	};
+
 	SdlEntryPoint {
 		choices: { NoStdioRedirect, NoEntryPoint, WithStdioRedirect };
-		description = "Whether to use SDL's entry point (SDLmain library) that wraps the main() function, and whether that entry point should automatically redirect stdio to stdout.txt/stderr.txt. Regardless of this setting, SDLmain will only be linked into executables.";
+		description = "Whether to use SDL's entry point (SDLmain library) that wraps the main() function, and whether that entry point should automatically redirect stdio to stdout.txt/stderr.txt. Regardless of this setting, SDLmain will only be linked into executables, and debug builds will always redirect stdio.";
 		NoEntryPoint.description = "Do not use SDLmain library.";
 		WithStdioRedirect.description = "Use SDLmain library and redirect stdio.";
 		NoStdioRedirect.description = "Use SDLmain library and do not redirect stdio.";
@@ -53,26 +61,30 @@ Homepage: http://www.libsdl.org/";
 			..\include\**\*.h,
 		};
 
-		("v100,v110", "Win32,x64", "release,debug", "Dynamic") => {
-			[${0},${1},${2},${3}] {
-				bin:     { .\output\${0}\${1}\${2}\${3}\SDL.dll };
-				symbols: { .\output\${0}\${1}\${2}\${3}\SDL.pdb };
-			};
-		};
+        ("Win32,x64", ${toolsets}, "Debug,Release") => {
+            [${0},${1},${2}] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDL.lib };
+                bin: { ..\VisualC10\${1}\${2}\${0}\SDL.dll };
+                symbols: { ..\VisualC10\${1}\${2}\${0}\SDL.pdb };
+            };
 
-		("v100,v110", "Win32,x64", "release,debug", "Dynamic,Static,ltcg") => {
-			[${0},${1},${2},${3}] {
-				lib:     { .\output\${0}\${1}\${2}\${3}\SDL.lib };
-			};
+            [${0},${1},${2},application,withstdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDLmain.lib };
+            };
+        };
 
-			[${0},${1},${2},${3},application,withstdioredirect] {
-				lib:     { .\output\${0}\${1}\${2}\${3}\SDLmain.lib };
-			};
+        ("Win32,x64", ${toolsets}, "Debug") => {
+            [${0},${1},${2},application,nostdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}\${0}\SDLmain.lib }; // FIXME: provide a library for this?
+            };
+        };
 
-			[${0},${1},${2},${3},application,nostdioredirect] {
-				lib:     { .\output\${0}\${1}\${2}\${3}\SDLmain_NoSTDIO.lib };
-			};
-		};
+        ("Win32,x64", ${toolsets}, "Release") => {
+
+            [${0},${1},${2},application,nostdioredirect] {
+                lib: { ..\VisualC10\${1}\${2}_NoSTDIO\${0}\SDLmain.lib };
+            };
+        };
 
 		[noentrypoint] {
 		};

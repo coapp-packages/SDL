@@ -1,7 +1,10 @@
+// Cannot use because of https://github.com/coapp/coapp.powershell/issues/112
+// Use all.bat for now.
+
 @import default_tools;
 
 default {
-    (PlatformToolsets, Architectures, ReleaseOrDebug, Linkage) => {
+    ("V100,V110,V120,V140", Architectures, ReleaseOrDebug, Linkage) => {
         .PushEnvironment{};
         .LoadSystemEnvironment{};
         .SetEnvironmentFromTarget.Target = "VC_${0}_${1}";
